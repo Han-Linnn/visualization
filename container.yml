@@ -9,7 +9,7 @@ dependencies:
 
 files:
 - brane_visualization.py
-- train.csv
+- data/
 
 install:
   - pip install pandas
@@ -31,6 +31,10 @@ actions:
       args:
         - visualization
     input:
+      - type: string
+        name: csv_path
+      - type: string
+        name: output_path
     output:
     # Define the output: a string type, discriminative by the 'output' key
       - name: output

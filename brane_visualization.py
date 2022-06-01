@@ -12,19 +12,19 @@ from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 import folium
 #from folium import plugins
+ 
 
-
-def visualization():
+def visualization(csv_path:str,output_path:str)->str:
     #csv_path = './train.csv'
     #cwd = os.getcwd()
     #filepath = cwd+'/train.csv'
-    df = pd.read_csv(f'train.csv')
+    df = pd.read_csv(f'{csv_path}/train.csv')
     try:
         #1.Visualization of the missing data in the form of a chart
         plt.figure(figsize = (15, 10))
         plt.title("Visualizing the Missing Data", fontsize = 20)
         msno.bar(df, color = (1, 1, 0.5), sort = "ascending", figsize = (15, 10))
-        plt.savefig(f"/data/issingdata.png")
+        plt.savefig(f"{output_path}/missingdata.png")
         plt.show()
         plt.close()
 
@@ -48,7 +48,7 @@ def visualization():
                         bbox = bbox_args,
                         color = custom_colors[2],
                         fontsize = 15)
-        plt.savefig(f"/data/locationcount.png")
+        plt.savefig(f"{output_path}/locationcount.png")
         plt.close()
 
         #3.Visualization Location Map
@@ -75,19 +75,22 @@ def visualization():
                 folium.CircleMarker([float(r['latitude']), float(r['longitude'])], radius = float(counts), color = custom_colors[1], fill = True).add_to(map)
         map.get_root().html.add_child(folium.Element(title))
         map
-        map.save(f"/data/location_map.html")
-        return "Visualization is done, all files are saved to the path -> ./data/"
+        map.save(f"{output_path}/location_map.html")
+        return "Visualization is done, all the files are saved to the directory -> ./data/"
 
     except IOError as e:
         return f"ERROR: {e} ({e.errno})" 
 
 
+
 if __name__ == "__main__":
     command = sys.argv[1]
+    csv_path = os.environ["CSV_PATH"]
+    output_path = os.environ["OUTPUT_PATH"]
 
     functions = {
         "visualization": visualization,
     }
-
-    output = functions[command]()
+    
+    output = functions[command](csv_path,output_path)
     print(yaml.dump({"output": output}))
