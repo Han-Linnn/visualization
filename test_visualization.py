@@ -9,5 +9,5 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual( visualization(('/data', '/data')), "Visualization is done, all the files are saved to the directory -> ./data/")
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     unittest.main()
