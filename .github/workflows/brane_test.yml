@@ -70,4 +70,4 @@ jobs:
       - name: Import visualization package
         shell: bash
         run: |
-          brane run --data ./data action_test.txt
+          (set -o pipefail && echo "import visualization;" | brane repl -c)
