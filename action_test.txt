@@ -1,2 +1,0 @@
-import visualization;
-print( visualization('/data', '/data') );
